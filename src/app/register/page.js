@@ -123,7 +123,7 @@ export default function RegisterPage() {
                     className="flex items-center gap-2 min-w-[120px]"
                     onClick={() => setIsDialogOpen(true)}
                   >
-                    <span>{selectedCountry.flag}</span>
+                    <span class={selectedFlag}></span>
                     <span>{selectedCountry.code}</span>
                   </Button>
                 </DialogTrigger>
@@ -166,7 +166,7 @@ export default function RegisterPage() {
                               setSearchQuery('')
                             }}
                           >
-                            <span className="mr-2">{country.flag}</span>
+                            <span className={`fi fi-${country.flag}`}></span>
                             <span>{country.name}</span>
                             <span className="ml-auto text-gray-500">{country.code}</span>
                           </Button>
