@@ -130,14 +130,14 @@ export default function RegisterPage() {
                 <DialogContent className="max-w-sm">
                   <DialogHeader>
                     <DialogTitle>Select Country Code</DialogTitle>
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      className="absolute right-4 top-4" 
-                      onClick={() => setIsDialogOpen(false)}
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
+                    // <Button 
+                    //   variant="ghost" 
+                    //   size="icon" 
+                    //   className="absolute right-4 top-4" 
+                    //   onClick={() => setIsDialogOpen(false)}
+                    // >
+                    //   <X className="h-4 w-4" />
+                    // </Button>
                   </DialogHeader>
                   <Input
                     placeholder="Search by country name or dial code"
