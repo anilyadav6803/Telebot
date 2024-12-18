@@ -163,6 +163,7 @@ export default function RegisterPage() {
                             style={style}
                             onClick={() => {
                               setSelectedCountry(country)
+                              setSelectedFlag(`fi fi-${country.flag}`)
                               setSearchQuery('')
                             }}
                           >
