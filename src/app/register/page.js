@@ -165,6 +165,7 @@ export default function RegisterPage() {
                               setSelectedCountry(country)
                               setSelectedFlag(`fi fi-${country.flag}`)
                               setSearchQuery('')
+                              setIsDialogOpen(false)
                             }}
                           >
                             <span className={`fi fi-${country.flag}`}></span>
