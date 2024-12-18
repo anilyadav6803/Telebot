@@ -44,7 +44,7 @@ export default function RegisterPage() {
   const handleConnect = async () => {
     setError('')
     try {
-      if (step === 'phone') {
+      if (step === 'sendCode') {
         const res = await fetch('/api/telegram', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

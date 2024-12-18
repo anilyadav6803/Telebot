@@ -1,5 +1,4 @@
-import { TelegramClient } from "telegram";
-import { StringSession } from "telegram/sessions";
+
 import { NextResponse } from "next/server";
 
 const apiId = parseInt(process.env.TELEGRAM_API_ID);
@@ -8,27 +7,18 @@ const apiHash = process.env.TELEGRAM_API_HASH;
 export async function POST(req) {
   try {
     const body = await req.json();
+    console.log(body)
     const { phoneNumber, password, phoneCode, action, session } = body;
-
-    const stringSession = new StringSession(session || "");
-    const client = new TelegramClient(stringSession, apiId, apiHash, {
-      connectionRetries: 5,
-    });
+    console.log(action)
 
     if (action === "sendCode") {
-      await client.connect();
-      const result = await client.sendCode(
-        {
-          apiId,
-          apiHash,
-          phoneNumber: phoneNumber,
-        },
-        {
-          dcId: 2,
-          shouldThrowIfUnauthorized: false,
-        }
-      );
-      return NextResponse.json({ phoneCodeHash: result.phoneCodeHash });
+      console.log("here")
+      FASTAPI_URL = "http://127.0.0.1:8000"
+      const response = await fetch(`${FASTAPI_URL}/sendcode?phone_no=${phoneNumber}`);
+      const data = await response.json();
+      console.log("Data--->", data)
+
+      return "Works" //NextResponse.json({ phoneCodeHash: result.phoneCodeHash });
     }
 
     if (action === "signIn") {
