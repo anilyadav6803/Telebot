@@ -41,7 +41,7 @@ export default function RegisterPage() {
         country.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         country.code.includes(searchQuery)
       )
-    : countries.slice(0, 20)
+    : countries.slice(0, 100)
 
   const handleConnect = async () => {
     setError('')
