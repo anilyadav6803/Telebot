@@ -26,6 +26,7 @@ const countries = Object.entries(countriesData).map(([code, data]) => ({
 
 export default function RegisterPage() {
   const [selectedCountry, setSelectedCountry] = useState(countries[0])
+  const [selectedFlag, setSelectedFlag] = useState(`fi fi-${countries[0].flag}`);
   const [searchQuery, setSearchQuery] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
