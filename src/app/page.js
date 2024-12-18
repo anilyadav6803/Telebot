@@ -1,125 +1,254 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import Image from 'next/image'
+import { useState } from 'react'
+import { ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Send } from 'lucide-react'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
-export default function Page() {
-  const router = useRouter()
+// Country data
+const countries = [
+  { name: 'Anonymous Number', code: '+888', flag: '🏴‍☠️' },
+  { name: 'Afghanistan', code: '+93', flag: '🇦🇫' },
+  { name: 'Aland Islands', code: '+358', flag: '🇦🇽' },
+  { name: 'Albania', code: '+355', flag: '🇦🇱' },
+  { name: 'Algeria', code: '+213', flag: '🇩🇿' },
+  { name: 'Andorra', code: '+376', flag: '🇦🇩' },
+  { name: 'Angola', code: '+244', flag: '🇦🇴' },
+  { name: 'Argentina', code: '+54', flag: '🇦🇷' },
+  { name: 'Armenia', code: '+374', flag: '🇦🇲' },
+  { name: 'Australia', code: '+61', flag: '🇦🇺' },
+  { name: 'Austria', code: '+43', flag: '🇦🇹' },
+  { name: 'Azerbaijan', code: '+994', flag: '🇦🇿' },
+  { name: 'Bahamas', code: '+1-242', flag: '🇧🇸' },
+  { name: 'Bahrain', code: '+973', flag: '🇧🇭' },
+  { name: 'Bangladesh', code: '+880', flag: '🇧🇩' },
+  { name: 'Belarus', code: '+375', flag: '🇧🇾' },
+  { name: 'Belgium', code: '+32', flag: '🇧🇪' },
+  { name: 'Belize', code: '+501', flag: '🇧🇿' },
+  { name: 'Benin', code: '+229', flag: '🇧🇯' },
+  { name: 'Bhutan', code: '+975', flag: '🇧🇹' },
+  { name: 'Bolivia', code: '+591', flag: '🇧🇴' },
+  { name: 'Bosnia and Herzegovina', code: '+387', flag: '🇧🇦' },
+  { name: 'Botswana', code: '+267', flag: '🇧🇼' },
+  { name: 'Brazil', code: '+55', flag: '🇧🇷' },
+  { name: 'Brunei', code: '+673', flag: '🇧🇳' },
+  { name: 'Bulgaria', code: '+359', flag: '🇧🇬' },
+  { name: 'Burkina Faso', code: '+226', flag: '🇧🇫' },
+  { name: 'Burundi', code: '+257', flag: '🇧🇮' },
+  { name: 'Cambodia', code: '+855', flag: '🇰🇭' },
+  { name: 'Cameroon', code: '+237', flag: '🇨🇲' },
+  { name: 'Canada', code: '+1', flag: '🇨🇦' },
+  { name: 'Cape Verde', code: '+238', flag: '🇨🇻' },
+  { name: 'Central African Republic', code: '+236', flag: '🇨🇫' },
+  { name: 'Chad', code: '+235', flag: '🇹🇩' },
+  { name: 'Chile', code: '+56', flag: '🇨🇱' },
+  { name: 'China', code: '+86', flag: '🇨🇳' },
+  { name: 'Colombia', code: '+57', flag: '🇨🇴' },
+  { name: 'Comoros', code: '+269', flag: '🇰🇲' },
+  { name: 'Congo', code: '+242', flag: '🇨🇬' },
+  { name: 'Costa Rica', code: '+506', flag: '🇨🇷' },
+  { name: 'Croatia', code: '+385', flag: '🇭🇷' },
+  { name: 'Cuba', code: '+53', flag: '🇨🇺' },
+  { name: 'Cyprus', code: '+357', flag: '🇨🇾' },
+  { name: 'Czech Republic', code: '+420', flag: '🇨🇿' },
+  { name: 'Denmark', code: '+45', flag: '🇩🇰' },
+  { name: 'Djibouti', code: '+253', flag: '🇩🇯' },
+  { name: 'Dominica', code: '+1-767', flag: '🇩🇲' },
+  { name: 'Dominican Republic', code: '+1-809', flag: '🇩🇴' },
+  { name: 'Ecuador', code: '+593', flag: '🇪🇨' },
+  { name: 'Egypt', code: '+20', flag: '🇪🇬' },
+  { name: 'El Salvador', code: '+503', flag: '🇸🇻' },
+  { name: 'Estonia', code: '+372', flag: '🇪🇪' },
+  { name: 'Ethiopia', code: '+251', flag: '🇪🇹' },
+  { name: 'Fiji', code: '+679', flag: '🇫🇯' },
+  { name: 'Finland', code: '+358', flag: '🇫🇮' },
+  { name: 'France', code: '+33', flag: '🇫🇷' },
+  { name: 'Gabon', code: '+241', flag: '🇬🇦' },
+  { name: 'Gambia', code: '+220', flag: '🇬🇲' },
+  { name: 'Georgia', code: '+995', flag: '🇬🇪' },
+  { name: 'Germany', code: '+49', flag: '🇩🇪' },
+  { name: 'Ghana', code: '+233', flag: '🇬🇭' },
+  { name: 'Greece', code: '+30', flag: '🇬🇷' },
+  { name: 'Greenland', code: '+299', flag: '🇬🇱' },
+  { name: 'Guatemala', code: '+502', flag: '🇬🇹' },
+  { name: 'Guinea', code: '+224', flag: '🇬🇳' },
+  { name: 'Haiti', code: '+509', flag: '🇭🇹' },
+  { name: 'Honduras', code: '+504', flag: '🇭🇳' },
+  { name: 'Hungary', code: '+36', flag: '🇭🇺' },
+  { name: 'Iceland', code: '+354', flag: '🇮🇸' },
+  { name: 'India', code: '+91', flag: '🇮🇳' },
+  { name: 'Indonesia', code: '+62', flag: '🇮🇩' },
+  { name: 'Iran', code: '+98', flag: '🇮🇷' },
+  { name: 'Iraq', code: '+964', flag: '🇮🇶' },
+  { name: 'Ireland', code: '+353', flag: '🇮🇪' },
+  { name: 'Israel', code: '+972', flag: '🇮🇱' },
+  { name: 'Italy', code: '+39', flag: '🇮🇹' },
+  { name: 'Jamaica', code: '+1-876', flag: '🇯🇲' },
+  { name: 'Japan', code: '+81', flag: '🇯🇵' },
+  { name: 'Jordan', code: '+962', flag: '🇯🇴' },
+  { name: 'Kazakhstan', code: '+7', flag: '🇰🇿' },
+  { name: 'Kenya', code: '+254', flag: '🇰🇪' },
+  { name: 'South Korea', code: '+82', flag: '🇰🇷' },
+  { name: 'Kuwait', code: '+965', flag: '🇰🇼' },
+  { name: 'Kyrgyzstan', code: '+996', flag: '🇰🇬' },
+  { name: 'Laos', code: '+856', flag: '🇱🇦' },
+  { name: 'Latvia', code: '+371', flag: '🇱🇻' },
+  { name: 'Lebanon', code: '+961', flag: '🇱🇧' },
+  { name: 'Liberia', code: '+231', flag: '🇱🇷' },
+  { name: 'Lithuania', code: '+370', flag: '🇱🇹' },
+  { name: 'Luxembourg', code: '+352', flag: '🇱🇺' },
+  { name: 'Malaysia', code: '+60', flag: '🇲🇾' },
+  { name: 'Maldives', code: '+960', flag: '🇲🇻' },
+  { name: 'Mali', code: '+223', flag: '🇲🇱' },
+  { name: 'Malta', code: '+356', flag: '🇲🇹' },
+  { name: 'Mexico', code: '+52', flag: '🇲🇽' },
+  { name: 'Morocco', code: '+212', flag: '🇲🇦' },
+  { name: 'Netherlands', code: '+31', flag: '🇳🇱' },
+  { name: 'New Zealand', code: '+64', flag: '🇳🇿' },
+  { name: 'Nigeria', code: '+234', flag: '🇳🇬' },
+  { name: 'Norway', code: '+47', flag: '🇳🇴' },
+  { name: 'Pakistan', code: '+92', flag: '🇵🇰' },
+  { name: 'Philippines', code: '+63', flag: '🇵🇭' },
+  { name: 'Poland', code: '+48', flag: '🇵🇱' },
+  { name: 'Portugal', code: '+351', flag: '🇵🇹' },
+  { name: 'Qatar', code: '+974', flag: '🇶🇦' },
+  { name: 'Russia', code: '+7', flag: '🇷🇺' },
+  { name: 'Saudi Arabia', code: '+966', flag: '🇸🇦' },
+  { name: 'Singapore', code: '+65', flag: '🇸🇬' },
+  { name: 'South Africa', code: '+27', flag: '🇿🇦' },
+  { name: 'Spain', code: '+34', flag: '🇪🇸' },
+  { name: 'Sweden', code: '+46', flag: '🇸🇪' },
+  { name: 'Switzerland', code: '+41', flag: '🇨🇭' },
+  { name: 'Thailand', code: '+66', flag: '🇹🇭' },
+  { name: 'Turkey', code: '+90', flag: '🇹🇷' },
+  { name: 'Ukraine', code: '+380', flag: '🇺🇦' },
+  { name: 'United Arab Emirates', code: '+971', flag: '🇦🇪' },
+  { name: 'United Kingdom', code: '+44', flag: '🇬🇧' },
+  { name: 'United States', code: '+1', flag: '🇺🇸' },
+  { name: 'Vietnam', code: '+84', flag: '🇻🇳' },
+  { name: 'Yemen', code: '+967', flag: '🇾🇪' },
+  { name: 'Zimbabwe', code: '+263', flag: '🇿🇼' }
+];
+
+
+export default function RegisterPage() {
+  const [selectedCountry, setSelectedCountry] = useState(countries[4]) // Default to US
+  const [searchQuery, setSearchQuery] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+
+  const filteredCountries = countries.filter(country => 
+    country.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    country.code.includes(searchQuery)
+  )
 
   return (
-    <div className="min-h-screen grid md:grid-cols-3">
-      {/* Left Section - Hero */}
-      <div className="relative hidden md:flex md:col-span-2 flex-col items-start justify-center p-8 bg-gradient-to-b from-violet-600 to-blue-400 text-white overflow-hidden">
-        {/* Logo and Title */}
-        <div className="relative z-10 flex items-center gap-4 mb-6">
-          <div className="flex gap-0.5">
-            <div className="w-2 h-8 bg-white rounded-sm"></div>
-            <div className="w-2 h-8 bg-white/50 rounded-sm"></div>
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">AUTO FORWARD</h1>
-            <p className="text-xl"><span className="text-orange-400">FOR TELEGRAM</span></p>
-          </div>
+    <div className="min-h-screen bg-white">
+      <div className="max-w-8xl mx-auto p-4">
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-8">
+          <Link href="/" className="text-gray-600 hover:text-gray-900">
+            <ArrowLeft className="w-6 h-6" />
+          </Link>
+          <h1 className="text-xl font-semibold">Connect to BOT</h1>
         </div>
 
-        {/* Description */}
-        <p className="relative z-10 text-2xl font-light max-w-md mb-8">
-          Automatically forward messages from Channels, Users and Groups (private or public)
+        {/* Instructions */}
+        <p className="text-gray-600 text-sm mb-6">
+          Enter the phone number of the telegram account which is already a member of the desired source chats, along with country code
         </p>
 
-        {/* Paper Airplane Icon */}
-        <div className="absolute right-0 top-1/3 transform -translate-y-1/2">
-          <Send className="w-48 h-48 text-white/90 rotate-12" />
-        </div>
-
-        {/* Cloud Background */}
-        <div className="absolute bottom-0 left-0 right-0 h-64">
-          {Array.from({ length: 10 }).map((_, i) => (
-            <div
-              key={i}
-              className="absolute bottom-0 w-32 h-32 bg-blue-400/50 rounded-full"
-              style={{
-                left: `${i * 15}%`,
-                bottom: `${Math.sin(i) * 20}px`,
-              }}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Right Section - Login Form */}
-      <div className="flex items-center justify-end p-8">
-        <Card className="w-full max-w-sm">
-          <CardHeader>
-            <div className="flex items-center gap-4 mb-4">
-              <div className="flex gap-0.5 md:hidden">
-                <div className="w-2 h-8 bg-violet-600 rounded-sm"></div>
-                <div className="w-2 h-8 bg-violet-400 rounded-sm"></div>
-              </div>
-              <CardTitle className="text-2xl font-bold">
-                SIGN IN{' '}
-                <span className="text-violet-600">AUTO FORWARD</span>{' '}
-                <span className="text-orange-400">FOR TELEGRAM</span>
-              </CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <p className="text-sm text-gray-600">
-                To get <span className="font-semibold">UserID</span> and{' '}
-                <span className="font-semibold">Token</span> please check in your profile on Bot{' '}
-                <a href="#" className="text-blue-500 hover:underline">(Click to view instructions)</a>.
-                Or connect bot to create if you don't have an account..
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <label htmlFor="userId" className="text-sm font-medium">
-                  UserID
-                </label>
-                <Input
-                  id="userId"
-                  placeholder="Enter Your Account ID"
-                  className="w-full"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label htmlFor="token" className="text-sm font-medium flex items-center gap-2">
-                  Token
-                  <span className="text-gray-400">ⓘ</span>
-                </label>
-                <Input
-                  id="token"
-                  placeholder="Enter your Login Token"
-                  type="password"
-                  className="w-full"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-4 pt-4">
-              <Button className="w-full bg-green-600 hover:bg-green-700">
-                LOGIN
-              </Button>
-              
-              <div className="text-center">Or</div>
-              
+        {/* Phone Input */}
+        <div className="flex gap-2 mb-6">
+          <Dialog>
+            <DialogTrigger asChild>
               <Button 
-                variant="outline"
-                className="w-full border-violet-600 text-violet-600 hover:bg-violet-50"
-                onClick={() => router.push('/register')}
+                variant="outline" 
+                className="flex items-center gap-2 min-w-[120px]"
               >
-                📱 Register Bot
+                <span>{selectedCountry.flag}</span>
+                <span>{selectedCountry.code}</span>
               </Button>
-            </div>
-          </CardContent>
-        </Card>
+            </DialogTrigger>
+            <DialogContent className="max-w-sm">
+              <DialogHeader>
+                <DialogTitle>Select Country Code</DialogTitle>
+              </DialogHeader>
+              <Input
+                placeholder="Search by country name or dial code"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="mb-4"
+              />
+              <ScrollArea className="h-[300px]">
+                <div className="space-y-2">
+                  {filteredCountries.map((country) => (
+                    <Button
+                      key={country.code}
+                      variant="ghost"
+                      className="w-full justify-start text-left"
+                      onClick={() => {
+                        setSelectedCountry(country)
+                        setSearchQuery('')
+                      }}
+                    >
+                      <span className="mr-2">{country.flag}</span>
+                      <span>{country.name}</span>
+                      <span className="ml-auto text-gray-500">{country.code}</span>
+                    </Button>
+                  ))}
+                </div>
+              </ScrollArea>
+            </DialogContent>
+          </Dialog>
+          <Input
+            placeholder="Phone number"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            className="flex-1"
+          />
+        </div>
+
+        {/* Connect Button */}
+        <Button className="w-full bg-gray-500 hover:bg-gray-600 text-white mb-4">
+          Connect
+        </Button>
+
+        {/* Terms */}
+        <p className="text-center text-sm text-gray-600 mb-8">
+          By connect, you agree to our{' '}
+          <Link href="/terms" className="text-blue-600 hover:underline">Terms</Link>
+          {' & '}
+          <Link href="/privacy" className="text-blue-600 hover:underline">Privacy Policy</Link>
+        </p>
+
+        {/* Advice Section */}
+        <div className="space-y-6">
+          <h2 className="text-center font-medium">Here are some advices to NOT get banned from Telegram</h2>
+          <ul className="space-y-3">
+            {[
+              'Do not use virtual phone numbers.',
+              'Do not use phone numbers that have never been used with Telegram app before.',
+              'Do not use newly acquired phone numbers.',
+              'Do not use VoIP numbers.',
+              'Do not abuse, spam or use it for other suspicious activities.',
+              'Only use phone numbers that have been previously used with Telegram app.'
+            ].map((advice, index) => (
+              <li key={index} className="flex items-center gap-2">
+                <span className="w-4 h-4 rounded-full bg-green-500 flex-shrink-0" />
+                <span className="text-sm text-gray-700">{advice}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   )
