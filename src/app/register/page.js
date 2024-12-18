@@ -1,5 +1,6 @@
 'use client'
 
+import "flag-icons/css/flag-icons.min.css";
 import { useState } from 'react'
 import { ArrowLeft, X } from 'lucide-react'
 import Link from 'next/link'
