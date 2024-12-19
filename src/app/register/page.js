@@ -17,7 +17,6 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { FixedSizeList as List } from 'react-window'
 import countriesData from './countries.json'
 
-
 const countries = Object.entries(countriesData).map(([code, data]) => ({
   name: data.name,
   code: `+${data.countryCallingCode}`,
@@ -46,13 +45,19 @@ export default function RegisterPage() {
   const handleConnect = async () => {
     setError('')
     try {
-      if (step === 'sendCode') {
+      console.log('Current step:', step) // Add this log
+      if (step === 'phone') {
+        console.log('Sending code to:', selectedCountry.code + phoneNumber) // Add this log
         const res = await fetch('/api/telegram', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ phoneNumber: selectedCountry.code + phoneNumber }),
+          body: JSON.stringify({ 
+            action: 'sendCode', // Add this line
+            phoneNumber: selectedCountry.code + phoneNumber 
+          }),
         })
         const data = await res.json()
+        console.log('Response:', data) // Add this log
         if (data.error) throw new Error(data.error)
         setStep('code')
       } else if (step === 'code') {
@@ -94,6 +99,7 @@ export default function RegisterPage() {
         setStep('success')
       }
     } catch (err) {
+      console.error('Error:', err) // Change this to console.error
       setError(err.message)
     }
   }
@@ -123,21 +129,13 @@ export default function RegisterPage() {
                     className="flex items-center gap-2 min-w-[120px]"
                     onClick={() => setIsDialogOpen(true)}
                   >
-                    <span class={selectedFlag}></span>
+                    <span className={selectedFlag}></span>
                     <span>{selectedCountry.code}</span>
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-sm">
                   <DialogHeader>
                     <DialogTitle>Select Country Code</DialogTitle>
-                    // <Button 
-                    //   variant="ghost" 
-                    //   size="icon" 
-                    //   className="absolute right-4 top-4" 
-                    //   onClick={() => setIsDialogOpen(false)}
-                    // >
-                    //   <X className="h-4 w-4" />
-                    // </Button>
                   </DialogHeader>
                   <Input
                     placeholder="Search by country name or dial code"
@@ -220,7 +218,7 @@ export default function RegisterPage() {
             className="w-full bg-gray-500 hover:bg-gray-600 text-white mb-4"
             onClick={handleConnect}
           >
-            {step === 'phone' ? 'Connect' : 'Verify'}
+            {step === 'phone' ? 'Send Code' : 'Verify'}
           </Button>
         )}
 
