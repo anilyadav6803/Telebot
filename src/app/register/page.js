@@ -67,6 +67,7 @@ export default function RegisterPage() {
           body: JSON.stringify({ 
             phoneNumber: selectedCountry.code + phoneNumber, 
             code: verificationCode,
+            action: 'code', // Add this line
             session: session // Include the session if available
           }),
         })
