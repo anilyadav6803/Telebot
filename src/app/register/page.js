@@ -24,8 +24,8 @@ const countries = Object.entries(countriesData).map(([code, data]) => ({
 })).sort((a, b) => a.name.localeCompare(b.name))
 
 export default function RegisterPage() {
-  const [selectedCountry, setSelectedCountry] = useState(countries[0])
-  const [selectedFlag, setSelectedFlag] = useState(`fi fi-${countries[0].flag}`);
+  const [selectedCountry, setSelectedCountry] = useState(countries[99])
+  const [selectedFlag, setSelectedFlag] = useState(`fi fi-${countries[99].flag}`);
   const [searchQuery, setSearchQuery] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -35,6 +35,8 @@ export default function RegisterPage() {
   const [error, setError] = useState('')
   const [session, setSession] = useState('')
 
+
+  
   const filteredCountries = searchQuery
     ? countries.filter(country => 
         country.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -72,12 +74,10 @@ export default function RegisterPage() {
           }),
         })
         const data = await res.json()
-        if (data.error) throw new Error(data.error)
-        if (data.session) {
-          setSession(data.session)
-        }
-        if (data.requiresPassword) {
+       
+        if (data.error === "Password Requireded.") {
           setStep('password')
+          
         } else {
           setStep('success')
         }
@@ -86,9 +86,10 @@ export default function RegisterPage() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
+            action: 'checkPassword' , // Add this line
             phoneNumber: selectedCountry.code + phoneNumber, 
             code: verificationCode, 
-            password,
+            password : password,
             session: session
           }),
         })
