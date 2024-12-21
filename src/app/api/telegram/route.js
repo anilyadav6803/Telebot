@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { message } from "telegram/client";
 
-const FASTAPI_URL = process.env.FASTAPI_URL || "http://127.0.0.1:8000/";
+const FASTAPI_URL = process.env.FASTAPI_URL || "http://127.0.0.1:8000";
 
 export async function POST(req) {
   try {
@@ -14,9 +14,11 @@ export async function POST(req) {
       case "sendCode":
         return await sendCode(phoneNumber);
       case "code":
-        return await signIn(phoneNumber, phoneCode, body.phoneCodeHash);
+        console.log('Received phoneCode:', body.code)
+        return await signIn(phoneNumber, body.code , body.phoneCodeHash);
       case "checkPassword":
-        return await checkPassword(password, session);
+        console.log('Received password:', body.password , body.phoneNumber)
+        return await checkPassword(body.password, body.phoneNumber);
       case "sendMessage":
         return await sendMessage(session);
       default:
@@ -37,7 +39,7 @@ async function sendCode(phoneNumber) {
   return NextResponse.json(data);
 }
 
-async function signIn(phoneNumber, phoneCode, phoneCodeHash) {
+async function signIn(phoneNumber, phoneCode) {
   const response = await fetch( `${FASTAPI_URL}/verifycode?phone_no=${phoneNumber}&phone_code=${phoneCode}` );
   const data = await response.json();
   return NextResponse.json(data);
@@ -46,10 +48,11 @@ async function signIn(phoneNumber, phoneCode, phoneCodeHash) {
   //return NextResponse.json({ success: true, message: "Signed in successfully" });
 }
 
-async function checkPassword(password, session) {
-  // Implement password check logic here
-  // This is a placeholder implementation
-  return NextResponse.json({ success: true, message: "Password checked successfully" });
+async function checkPassword(password , phoneNumber) {
+  const response = await fetch( `${FASTAPI_URL}/verifypass?phone_no=${phoneNumber}&two_fa_password=${password}` );
+  const data = await response.json();
+  return NextResponse.json(data);
+  
 }
 
 async function sendMessage(session) {
