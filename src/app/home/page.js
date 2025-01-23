@@ -9,7 +9,6 @@ import {
   Copy,
   Settings,
   RefreshCcw,
-  MessageCircleMore,
   Diamond,
   LayoutTemplate,
   UserPlus,
@@ -70,7 +69,11 @@ export default function HomePage() {
             <div className="flex items-center gap-4">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="flex items-center gap-2">
+                  <Button
+                    variant="ghost"
+                    className="flex items-center gap-2"
+                    aria-label="User Menu"
+                  >
                     <Image
                       src="/placeholder.svg"
                       alt="Avatar"
@@ -115,7 +118,12 @@ export default function HomePage() {
                   </div>
                   <div className="flex gap-1 items-center">
                     <span className="text-black text-sm">123456789</span>
-                    <Copy className="h-4 w-4 text-gray-600" />
+                    <button
+                      aria-label="Copy User ID"
+                      className="p-1 hover:bg-gray-200 rounded"
+                    >
+                      <Copy className="h-4 w-4 text-gray-600" />
+                    </button>
                   </div>
                 </div>
 
@@ -130,35 +138,7 @@ export default function HomePage() {
                   <span className="text-black text-sm">9310718039</span>
                 </div>
 
-                {/* Account Status Section */}
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-2">
-                    <div className="p-2 bg-gray-100 rounded">
-                      <Send className="h-4 w-4 text-gray-600" />
-                    </div>
-                    <span className="text-sm font-medium">Account Status</span>
-                  </div>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="text-green-600 border-green-600"
-                  >
-                    Activate
-                  </Button>
-                </div>
-
-                {/* Server Section */}
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-2">
-                    <div className="p-2 bg-gray-100 rounded">
-                      <Settings className="h-4 w-4 text-gray-600" />
-                    </div>
-                    <span className="text-sm font-medium">Server</span>
-                  </div>
-                  <span className="text-green-600 text-sm">FREE 3 ⚡</span>
-                </div>
-
-                {/* Plan Section (Fixed) */}
+                {/* Plan Section */}
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-2">
                     <div className="p-2 bg-gray-100 rounded">
@@ -166,115 +146,8 @@ export default function HomePage() {
                     </div>
                     <span className="text-sm font-medium">Plan</span>
                   </div>
-                  {/* Fixed the unclosed <span> tag */}
                   <span className="text-sm text-gray-600">Free/Pro</span>
-                  {/* Adjusted content as an example */}
                 </div>
-
-                {/* Start Time Section */}
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-2">
-                    <div className="p-2 bg-gray-100 rounded">
-                      <RefreshCcw className="h-4 w-4 text-gray-600" />
-                    </div>
-                    <span className="text-sm font-medium">Start Time</span>
-                  </div>
-                  <span className="text-sm text-gray-600">N/A</span>
-                </div>
-              </div>
-
-              {/* Features Section */}
-              <div className="space-y-2">
-                <h3 className="font-medium mb-4">Features</h3>
-
-                {/* Feature Buttons */}
-                <Button variant="ghost" className="w-full justify-between">
-                  <div className="flex items-center">
-                    <Sparkles className="h-4 w-4 mr-2" />
-                    Replace
-                  </div>
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-
-                <Button variant="ghost" className="w-full justify-between">
-                  <div className="flex items-center">
-                    <List className="h-4 w-4 mr-2" />
-                    Whitelist
-                  </div>
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-
-                <Button variant="ghost" className="w-full justify-between">
-                  <div className="flex items-center">
-                    <ListX className="h-4 w-4 mr-2" />
-                    Blacklist
-                  </div>
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-
-                <Button variant="ghost" className="w-full justify-between">
-                  <div className="flex items-center">
-                    <UserPlus className="h-4 w-4 mr-2" />
-                    Allow User
-                  </div>
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-
-                <Button variant="ghost" className="w-full justify-between">
-                  <div className="flex items-center">
-                    <UserX className="h-4 w-4 mr-2" />
-                    Block User
-                  </div>
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-
-                <Button variant="ghost" className="w-full justify-between">
-                  <div className="flex items-center">
-                    <Copy className="h-4 w-4 mr-2" />
-                    Clone
-                  </div>
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-
-                <Button variant="ghost" className="w-full justify-between">
-                  <div className="flex items-center">
-                    <LayoutTemplate className="h-4 w-4 mr-2" />
-                    Template
-                  </div>
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-
-                <Button variant="ghost" className="w-full justify-between">
-                  <div className="flex items-center">
-                    <Diamond className="h-4 w-4 mr-2" />
-                    Upgrade
-                  </div>
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-
-                <Button variant="ghost" className="w-full justify-between">
-                  <div className="flex items-center">
-                    <MessageCircleMore className="h-4 w-4 mr-2" />
-                    Chat Support
-                  </div>
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-
-                <Button variant="ghost" className="w-full justify-between">
-                  <div className="flex items-center">
-                    <RefreshCcw className="h-4 w-4 mr-2" />
-                    Restart Bot
-                  </div>
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-
-                <Button variant="ghost" className="w-full justify-between">
-                  <div className="flex items-center">
-                    <Settings className="h-4 w-4 mr-2" />
-                    Settings
-                  </div>
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
               </div>
             </div>
           </div>
@@ -306,50 +179,18 @@ export default function HomePage() {
                     key={tab}
                     variant={activeTab === tab ? "secondary" : "ghost"}
                     onClick={() => setActiveTab(tab)}
-                    className="rounded-full"
+                    className={`rounded-full ${
+                      activeTab === tab ? "bg-gray-200" : ""
+                    }`}
                   >
                     {tab}
                   </Button>
                 ))}
               </div>
-
-              {/* Tasks List */}
-              <div>
-                <h2 className="text-lg font-medium text-gray-600 mb-4">
-                  Your Forward Tasks
-                </h2>
-
-                <div className="border rounded-lg p-4">
-                  {/* Task Header */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <span className="bg-green-600 text-white text-xs px-2 py-1 rounded">
-                        RUNNING
-                      </span>
-                      <span className="font-medium">123</span>
-                    </div>
-                    <Button variant="ghost" size="icon">
-                      <ChevronDown className="h-4 w-4" />
-                    </Button>
-                  </div>
-
-                  {/* Task Details */}
-                  <div className="mt-2 space-y-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-gray-500">Source</span>
-                      <span className="text-sm">@UserName1 (93108496)</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-gray-500">Target</span>
-                      <span className="text-sm">UserName2 (83769485611)</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
-      </div>  
+      </div>
     </div>
   );
 }
