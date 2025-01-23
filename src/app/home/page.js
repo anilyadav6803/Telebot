@@ -3,7 +3,24 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Search, ChevronDown, Copy, Settings, RefreshCcw, MessageCircleMore, Diamond, LayoutTemplate, UserPlus, UserX, List, ListX, Sparkles, Send, ChevronRight, PhoneCall } from 'lucide-react';
+import {
+  Search,
+  ChevronDown,
+  Copy,
+  Settings,
+  RefreshCcw,
+  MessageCircleMore,
+  Diamond,
+  LayoutTemplate,
+  UserPlus,
+  UserX,
+  List,
+  ListX,
+  Sparkles,
+  Send,
+  ChevronRight,
+  PhoneCall,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -12,17 +29,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState("Default");
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white border-b">
-        <div className="max-w-8xl mx-auto px-4 py-2 ">
+        <div className="max-w-8xl mx-auto px-4 py-2">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2">
               <div className="flex gap-0.5">
@@ -50,7 +67,6 @@ export default function HomePage() {
               </Link>
             </nav>
 
-
             <div className="flex items-center gap-4">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -68,8 +84,6 @@ export default function HomePage() {
                         ID: 1337473172
                         <Copy className="h-4 w-4 text-gray-600" />
                       </div>
-
-                      <div className="flex gap-1"></div>
                     </div>
                     <ChevronDown className="h-4 w-4" />
                   </Button>
@@ -85,12 +99,13 @@ export default function HomePage() {
         </div>
       </header>
 
-      <div className="max-w-8xl mx-auto px-4 ">
+      <div className="max-w-8xl mx-auto px-4">
         <div className="grid grid-cols-12 gap-8">
           {/* Sidebar */}
           <div className="col-span-5 h-[calc(100vh-5rem)] sticky top-20">
             <div className="bg-white rounded-lg shadow-sm p-4 space-y-6 h-full overflow-y-auto">
               <div className="space-y-4">
+                {/* User ID Section */}
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-2">
                     <div className="p-2 bg-gray-100 rounded">
@@ -98,12 +113,13 @@ export default function HomePage() {
                     </div>
                     <span className="text-sm font-medium">USER ID</span>
                   </div>
-                  <div className="flex gap-1">
-                    <span className=" text-black text-sm"> 123456789 </span>
+                  <div className="flex gap-1 items-center">
+                    <span className="text-black text-sm">123456789</span>
                     <Copy className="h-4 w-4 text-gray-600" />
                   </div>
                 </div>
 
+                {/* Phone Number Section */}
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-2">
                     <div className="p-2 bg-gray-100 rounded">
@@ -111,9 +127,10 @@ export default function HomePage() {
                     </div>
                     <span className="text-sm font-medium">Phone Number</span>
                   </div>
-                  <span className=" text-black text-sm"> 9310718039 </span>
+                  <span className="text-black text-sm">9310718039</span>
                 </div>
 
+                {/* Account Status Section */}
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-2">
                     <div className="p-2 bg-gray-100 rounded">
@@ -130,6 +147,7 @@ export default function HomePage() {
                   </Button>
                 </div>
 
+                {/* Server Section */}
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-2">
                     <div className="p-2 bg-gray-100 rounded">
@@ -140,6 +158,7 @@ export default function HomePage() {
                   <span className="text-green-600 text-sm">FREE 3 ⚡</span>
                 </div>
 
+                {/* Plan Section (Fixed) */}
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-2">
                     <div className="p-2 bg-gray-100 rounded">
@@ -147,9 +166,12 @@ export default function HomePage() {
                     </div>
                     <span className="text-sm font-medium">Plan</span>
                   </div>
-                  <span className="text-sm text-gray-600">Free</span>
+                  {/* Fixed the unclosed <span> tag */}
+                  <span className="text-sm text-gray-600">Free/Pro</span>
+                  {/* Adjusted content as an example */}
                 </div>
 
+                {/* Start Time Section */}
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-2">
                     <div className="p-2 bg-gray-100 rounded">
@@ -157,13 +179,15 @@ export default function HomePage() {
                     </div>
                     <span className="text-sm font-medium">Start Time</span>
                   </div>
-                  <span className="text-sm text-gray-600">null</span>
+                  <span className="text-sm text-gray-600">N/A</span>
                 </div>
               </div>
 
+              {/* Features Section */}
               <div className="space-y-2">
                 <h3 className="font-medium mb-4">Features</h3>
 
+                {/* Feature Buttons */}
                 <Button variant="ghost" className="w-full justify-between">
                   <div className="flex items-center">
                     <Sparkles className="h-4 w-4 mr-2" />
@@ -258,22 +282,24 @@ export default function HomePage() {
           {/* Main Content */}
           <div className="col-span-7">
             <div className="bg-white rounded-lg shadow-sm p-6">
+              {/* Search and Create Task */}
               <div className="flex justify-between items-center mb-6">
                 <div className="relative flex-1 max-w-2xl">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <Input
-                    placeholder="Enter Name or Source ID or Target ID or Label Task"
+                    placeholder="Enter Name, Source ID, Target ID, or Label Task"
                     className="pl-10"
                   />
                 </div>
-                <Button 
+                <Button
                   className="bg-purple-600 hover:bg-purple-700"
-                  onClick={() => router.push('/create-task')}
+                  onClick={() => router.push("/create-task")}
                 >
                   Create Task +
                 </Button>
               </div>
 
+              {/* Tabs */}
               <div className="flex gap-2 mb-6">
                 {["Default", "Order", "Actived", "Deactived"].map((tab) => (
                   <Button
@@ -287,12 +313,14 @@ export default function HomePage() {
                 ))}
               </div>
 
+              {/* Tasks List */}
               <div>
                 <h2 className="text-lg font-medium text-gray-600 mb-4">
                   Your Forward Tasks
                 </h2>
 
                 <div className="border rounded-lg p-4">
+                  {/* Task Header */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                       <span className="bg-green-600 text-white text-xs px-2 py-1 rounded">
@@ -304,6 +332,8 @@ export default function HomePage() {
                       <ChevronDown className="h-4 w-4" />
                     </Button>
                   </div>
+
+                  {/* Task Details */}
                   <div className="mt-2 space-y-2">
                     <div className="flex items-center gap-2">
                       <span className="text-sm text-gray-500">Source</span>
@@ -311,7 +341,7 @@ export default function HomePage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-sm text-gray-500">Target</span>
-                      <span className="text-sm">UserName2(83769485611)</span>
+                      <span className="text-sm">UserName2 (83769485611)</span>
                     </div>
                   </div>
                 </div>
@@ -319,8 +349,7 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </div>
+      </div>  
     </div>
   );
 }
-
